@@ -13,36 +13,11 @@ export default class CadastroCliente extends Casdastro{
 
     public cadastrar(): void {
 
-        console.log(`\nInício do cadastro do cliente.\n`);
-
-        let nome = this.entrada.receberTexto(`Por favor informe o nome do cliente`)
-        let nomeSocial = this.entrada.receberTexto(`Por favor informe o nome social do cliente`)
-        let dataNascimento = this.entrada.receberData('Por favor informe a data de nascimento do cliente')
-        let dataCadastro = new Date().toLocaleString().split(' ')
-        
-        let endereco = new Endereco()
-        endereco.rua = `R. do Catete`
-        endereco.bairro = `Copacabana`
-        endereco.cidade = `Rio de Janeiro`
-        endereco.estado = `Rio de Janeiro`
-        endereco.pais = `Brasil`
-        endereco.codigoPostal = `22220-000`
-
-        let cadData = dataCadastro[0].split('/')
-        let ano = new Number(cadData[2].valueOf()).valueOf()
-        let mes = new Number(cadData[1].valueOf()).valueOf()
-        let dia = new Number(cadData[0].valueOf()).valueOf()
-        let dataEmissao =  new Date(ano, mes, dia);
-        
         let cliente = new Cliente()
+        let endereco = new Endereco()
 
-
-        cliente.nome = nome
-        cliente.nomeSocial = nomeSocial
-        cliente.dataNascimento = dataNascimento
-        cliente.dataCadastro = dataEmissao
-        cliente.endereco = endereco
-
+        this.cadastrarDadosCliente(cliente)
+        this.cadastrarEndereco(cliente,endereco)
 
         let dependente = new Cliente()
         dependente.nome = `Isabel Cristina Leopoldina Augusta Micaela`
@@ -57,7 +32,59 @@ export default class CadastroCliente extends Casdastro{
 
         console.log(`\n Cadastro concluído. \n`);
 
+    }
 
+    cadastrarDadosCliente(cliente:Cliente){
+
+        console.log(`\nInício do cadastro do cliente.\n`);
+
+        //  ---- dados do cliente ----
+        let nome = this.entrada.receberTexto(`Por favor informe o nome do cliente: `)
+        let nomeSocial = this.entrada.receberTexto(`Por favor informe o nome social do cliente: `)
+        let dataNascimento = this.entrada.receberData(`Por favor informe a data de nascimento do cliente: `)
+        let dataCadastro = new Date().toLocaleString().split(' ')
+
+        let cadData = dataCadastro[0].split('/')
+        let ano = new Number(cadData[2].valueOf()).valueOf()
+        let mes = new Number(cadData[1].valueOf()).valueOf()
+        let dia = new Number(cadData[0].valueOf()).valueOf()
+        let dataCadastroFormatado =  new Date(ano, mes, dia);
+
+        cliente.nome = nome
+        cliente.nomeSocial = nomeSocial
+        cliente.dataNascimento = dataNascimento
+        cliente.dataCadastro = dataCadastroFormatado
+    }
+
+    cadastrarEndereco(cliente:Cliente, endereco:Endereco){
+
+        console.log(`\nInício do cadastro do endereço.\n`);
+
+        // ---- endereco do cliente ----
+        let rua = this.entrada.receberTexto(`Por favor informe a rua: `)
+        let bairro = this.entrada.receberTexto(`Por favor informe o bairro: `)
+        let cidade = this.entrada.receberTexto(`Por favor informe a cidade: `)
+        let estado = this.entrada.receberTexto(`Por favor informe o estado: `)
+        let pais = this.entrada.receberTexto(`Por favor informe o pais: `)
+        let cep = this.entrada.receberTexto(`Por favor informe o CEP, no padrão xxxxx-xxx: `)
+
+        endereco.rua = rua
+        endereco.bairro = bairro
+        endereco.cidade = cidade
+        endereco.estado = estado
+        endereco.pais = pais
+        endereco.codigoPostal = cep
+
+        cliente.endereco = endereco
+    }
+
+
+    //EM PROGRESSO
+    cadastrartDependente(){
+        let convidado = this.entrada.receberTexto(`Voçê é um convidado ? [ SIM / NAO ]`)
+        if(convidado.toLowerCase() === 'SIM'){
+
+        }
     }
     
 }

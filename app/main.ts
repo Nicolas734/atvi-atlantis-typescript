@@ -2,7 +2,7 @@ import CadastroCliente from "../negocio/cadastroCliente";
 import Entrada from "./entrada";
 
 
-console.log(`Bem-vindo ao cadastro de clientes do Resort Atlantis`)
+console.log(`Bem-vindo ao Sistema Atlantis.`)
 
 let execucao = true
 
@@ -18,7 +18,7 @@ while(execucao){
     console.log(`[0] Sair \n`);
 
     let entrada = new Entrada();
-    let opcao = entrada.receberNumero("Por favor, escolha uma opção");
+    let opcao = entrada.receberNumero("Por favor, escolha uma opção: ");
 
     switch(opcao){
 
@@ -29,11 +29,11 @@ while(execucao){
 
         case 0:
             execucao = false;
-            console.log(`\nAté mais \n`);
+            console.log(`\nAté mais\n`);
             break;
 
         default:
-            console.log(`\nOperação não entendida`);
+            console.log(`\nOperação não entendida.`);
 
     }
 
