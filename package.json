@@ -1,0 +1,16 @@
+{
+  "name": "atvi-atlantis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "js/teste/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^17.0.21",
+    "@types/prompt-sync": "^4.1.1",
+    "prompt-sync": "^4.2.0"
+  }
+}
