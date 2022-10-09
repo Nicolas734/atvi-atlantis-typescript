@@ -4,6 +4,7 @@ import Cliente from "../modelos/cliente";
 import Documento from "../modelos/documento";
 import Endereco from "../modelos/endereco";
 import Casdastro from "./cadastro";
+import ListagemCliente from "./listagemCliente";
 
 export default class CadastroCliente extends Casdastro{
     private entrada: Entrada
@@ -18,8 +19,6 @@ export default class CadastroCliente extends Casdastro{
         let cliente = new Cliente()
         let endereco = new Endereco()
 
-
-
         this.cadastrarDadosCliente(cliente)
         this.cadastrarEndereco(cliente,endereco)
         this.cadastroDocumento(cliente)
@@ -32,7 +31,10 @@ export default class CadastroCliente extends Casdastro{
         dependente.endereco = (cliente.endereco.clonar() as Endereco)
         dependente.titular = cliente
 
-        console.log(cliente);
+        
+        let listagemCliente = new ListagemCliente(cliente)
+        listagemCliente.listar()
+        
         console.log(dependente);
 
         console.log(`\n Cadastro concluído. \n`);
@@ -88,23 +90,36 @@ export default class CadastroCliente extends Casdastro{
         let execucao = true 
 
         while(execucao){
-            let cadastrar = this.entrada.receberTexto(`\nDeseja cadastrar um documento ? [ SIM / NAO ]`)
+            let cadastrar = this.entrada.receberTexto(`Deseja cadastrar um documento ? [ SIM / NAO ] `)
             if(cadastrar.toLocaleUpperCase() === "SIM"){
                 let documento = new Documento()
                 
-                console.log(`\nOpções de documentos: \n
-        [1] CPF
-        [2] RG
-        [3] Passaporte
+                console.log(`\nOpções de documentos:
+
+            [1] CPF
+
+            [2] RG
+
+            [3] Passaporte
                 `);
                 
                 let opcaoTipoDocumento = this.entrada.receberNumero('Escolha um tipo de documento em que deseja cadastrar: ')
                 let tipoDocumento
-                if(opcaoTipoDocumento === 1){ tipoDocumento = TipoDocumento.CPF}
-                if(opcaoTipoDocumento === 2){ tipoDocumento = TipoDocumento.RG}
-                if(opcaoTipoDocumento === 3){ tipoDocumento = TipoDocumento.Passaporte}
-                
-                
+
+                switch (opcaoTipoDocumento) {
+                    case 1:
+                        tipoDocumento = TipoDocumento.CPF
+                        break;
+                    case 2:
+                        tipoDocumento = TipoDocumento.RG
+                        break;
+                    case 3:
+                        tipoDocumento = TipoDocumento.Passaporte
+                        break;
+                    default:
+                        break;
+                }
+
                 let numero = this.entrada.receberTexto(`Digite o numero do ${tipoDocumento} por favor: `)
                 let dataExpedicao = this.entrada.receberData(`Digite a data de expedição do ${tipoDocumento} por favor: `)
 
@@ -122,10 +137,9 @@ export default class CadastroCliente extends Casdastro{
 
 
     //EM PROGRESSO
-    cadastrartDependente(){
+    cadastrartDependente(cliente:Cliente){
         let convidado = this.entrada.receberTexto(`Voçê é um convidado ? [ SIM / NAO ]`)
         if(convidado.toLocaleUpperCase() === 'SIM'){
-
         }
     }
     
