@@ -12,5 +12,4 @@ export default class Cliente {
     public documentos: Documento[] = []
     public dependentes: Cliente[] = []
     public titular: Cliente
-
 }
