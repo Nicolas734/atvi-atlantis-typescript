@@ -3,6 +3,7 @@ import { TipoDocumento } from "../enumeracoes/tipoDocumento";
 import Cliente from "../modelos/cliente";
 import Documento from "../modelos/documento";
 import Endereco from "../modelos/endereco";
+import Telefone from "../modelos/telefone";
 import Casdastro from "./cadastro";
 import ListagemCliente from "./listagemCliente";
 
@@ -18,24 +19,23 @@ export default class CadastroCliente extends Casdastro{
 
         let cliente = new Cliente()
         let endereco = new Endereco()
+        let telefone = new Telefone()
 
         this.cadastrarDadosCliente(cliente)
+        this.cadastrarTelefone(cliente,telefone)
         this.cadastrarEndereco(cliente,endereco)
         this.cadastroDocumento(cliente)
+        const dependente = this.cadastrartDependente(cliente)
+        cliente.dependentes.push(dependente)
 
-        let dependente = new Cliente()
-        dependente.nome = `Isabel Cristina Leopoldina Augusta Micaela`
-        dependente.nomeSocial = `Princesa Isabel`
-        dependente.dataCadastro = new Date(1921, 10, 14)
-        dependente.dataNascimento = new Date(1846, 6, 29)
-        dependente.endereco = (cliente.endereco.clonar() as Endereco)
-        dependente.titular = cliente
+        // let listagemCliente = new ListagemCliente(cliente)
+        // listagemCliente.listar()
 
-        
-        let listagemCliente = new ListagemCliente(cliente)
-        listagemCliente.listar()
-        
-        console.log(dependente);
+        console.log('CLIENTE-----------------',cliente);
+
+        console.log('DEPENDENTE-----------------',dependente);
+
+        // console.log(dependente.telefones);
 
         console.log(`\n Cadastro concluído. \n`);
 
@@ -62,6 +62,37 @@ export default class CadastroCliente extends Casdastro{
         cliente.dataNascimento = dataNascimento
         cliente.dataCadastro = dataCadastroFormatado
     }
+
+
+    cadastrarTelefone(cliente:Cliente, telefone:Telefone){
+        console.log(`\nInício do cadastro do telefone.\n`);
+
+        let execucao = true
+
+        while(execucao){
+            let cadastrar = this.entrada.receberTexto(`Deseja cadastrar um telefone ? [ SIM / NAO ] `)
+            if(cadastrar.toLocaleUpperCase() === "SIM"){
+                let dddNumero = this.entrada.receberTexto(`Por favor informe o DDD e o numero de telefone, no padrão (xx) xxxx-xxxx `)
+
+                let separacao = dddNumero.split(')')
+                let dadosNumero = separacao[0] + ")-" + separacao[1]
+
+                let numeroEddd = dadosNumero.split("-")
+
+                let ddd = new String(numeroEddd[0].valueOf()).valueOf()
+                let numero = new String(numeroEddd[1].valueOf()).valueOf()
+
+                telefone.ddd = ddd
+                telefone.numero = numero
+
+                cliente.telefones.push(telefone)
+            }else{
+                execucao = false
+            }
+        }
+
+    }
+
 
     cadastrarEndereco(cliente:Cliente, endereco:Endereco){
 
@@ -121,7 +152,7 @@ export default class CadastroCliente extends Casdastro{
                 }
 
                 let numero = this.entrada.receberTexto(`Digite o numero do ${tipoDocumento} por favor: `)
-                let dataExpedicao = this.entrada.receberData(`Digite a data de expedição do ${tipoDocumento} por favor: `)
+                let dataExpedicao = this.entrada.receberData(`Digite a data de expedição do ${tipoDocumento}`)
 
                 documento.tipo = tipoDocumento
                 documento.numero = numero
@@ -135,12 +166,37 @@ export default class CadastroCliente extends Casdastro{
 
     }
 
-
     //EM PROGRESSO
-    cadastrartDependente(cliente:Cliente){
-        let convidado = this.entrada.receberTexto(`Voçê é um convidado ? [ SIM / NAO ]`)
+    cadastrartDependente(titular:Cliente){
+        let convidado = this.entrada.receberTexto(`Deseja cadastrar um convidado para este titular ? [ SIM / NAO ]`)
         if(convidado.toLocaleUpperCase() === 'SIM'){
+
+            let dependente = new Cliente()
+
+            let nome = this.entrada.receberTexto(`Por favor informe o nome do convidado: `)
+            let nomeSocial = this.entrada.receberTexto(`Por favor informe o nome social do convidado: `)
+            let dataNascimento = this.entrada.receberData(`Por favor informe a data de nascimento do convidado`)
+            let dataCadastro = new Date().toLocaleString().split(' ')
+
+            let cadData = dataCadastro[0].split('/')
+            let ano = new Number(cadData[2].valueOf()).valueOf()
+            let mes = new Number(cadData[1].valueOf()).valueOf()
+            let dia = new Number(cadData[0].valueOf()).valueOf()
+            let dataCadastroFormatado =  new Date(ano, mes, dia);
+
+            dependente.nome = nome
+            dependente.nomeSocial = nomeSocial
+            dependente.dataNascimento = dataNascimento
+            dependente.dataCadastro =dataCadastroFormatado
+
+            dependente.endereco = (titular.endereco.clonar() as Endereco)
+            dependente.telefones.push((titular.telefones[0].clonar() as Telefone))
+
+            dependente.titular = titular
+
+            return dependente
         }
     }
-    
+
+
 }
