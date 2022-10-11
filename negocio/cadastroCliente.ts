@@ -202,7 +202,7 @@ export default class CadastroCliente extends Casdastro{
                 dependente.dataNascimento = dataNascimento
                 dependente.dataCadastro =dataCadastroFormatado
                 dependente.endereco = (titular.endereco.clonar() as Endereco)
-                dependente.telefones = (titular.telefones.map(telefone => telefone.clonar()) as Telefone[])
+                dependente.telefones.push(titular.telefones[0].clonar() as Telefone)
                 dependente.titular = titular
                 dependentes.push(dependente)
 
