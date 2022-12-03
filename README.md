@@ -13,7 +13,7 @@
  
  - Lista_03 : [Terceira lista](https://github.com/Nicolas734/atviii-atlantis-typescript); <br>
  
- - Lista_04 : [Quarta lista](https://github.com/Nicolas734/ativ-atlantis-typescript); <br>
+ - Lista_04 : [Quarta lista](https://github.com/Nicolas734/atviv-atlantis-typescript); <br>
  
  - Lista_05 : [Quinta lista](https://github.com/Nicolas734/atvv-atlantis-typescript); <br>
  
